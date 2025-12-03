@@ -62,48 +62,94 @@ resource "aws_apigatewayv2_route" "blogpost_list" {
   target    = "integrations/${aws_apigatewayv2_integration.blogpost_list.id}"
 }
 
-# API Gateway Integration for Portfolio
-resource "aws_apigatewayv2_integration" "portfolio" {
+# API Gateway Integration for Portfolio Create
+resource "aws_apigatewayv2_integration" "portfolio_create" {
   api_id           = aws_apigatewayv2_api.main.id
   integration_type = "AWS_PROXY"
-  integration_uri  = aws_lambda_function.portfolio.invoke_arn
+  integration_uri  = aws_lambda_function.portfolio_create.invoke_arn
   integration_method = "POST"
 }
 
-# API Gateway Route for Portfolio - List/Create
-resource "aws_apigatewayv2_route" "portfolio" {
-  api_id    = aws_apigatewayv2_api.main.id
-  route_key = "ANY /portfolio"
-  target    = "integrations/${aws_apigatewayv2_integration.portfolio.id}"
-}
-
-# API Gateway Route for Portfolio - Get/Update/Delete by ID
-resource "aws_apigatewayv2_route" "portfolio_id" {
-  api_id    = aws_apigatewayv2_api.main.id
-  route_key = "ANY /portfolio/{id}"
-  target    = "integrations/${aws_apigatewayv2_integration.portfolio.id}"
-}
-
-# API Gateway Integration for Resume
-resource "aws_apigatewayv2_integration" "resume" {
+# API Gateway Integration for Portfolio Get
+resource "aws_apigatewayv2_integration" "portfolio_get" {
   api_id           = aws_apigatewayv2_api.main.id
   integration_type = "AWS_PROXY"
-  integration_uri  = aws_lambda_function.resume.invoke_arn
+  integration_uri  = aws_lambda_function.portfolio_get.invoke_arn
   integration_method = "POST"
 }
 
-# API Gateway Route for Resume - List/Create
-resource "aws_apigatewayv2_route" "resume" {
-  api_id    = aws_apigatewayv2_api.main.id
-  route_key = "ANY /resume"
-  target    = "integrations/${aws_apigatewayv2_integration.resume.id}"
+# API Gateway Integration for Portfolio List
+resource "aws_apigatewayv2_integration" "portfolio_list" {
+  api_id           = aws_apigatewayv2_api.main.id
+  integration_type = "AWS_PROXY"
+  integration_uri  = aws_lambda_function.portfolio_list.invoke_arn
+  integration_method = "POST"
 }
 
-# API Gateway Route for Resume - Get/Update/Delete by ID
-resource "aws_apigatewayv2_route" "resume_id" {
+# API Gateway Route for Portfolio - Create (POST)
+resource "aws_apigatewayv2_route" "portfolio_create" {
   api_id    = aws_apigatewayv2_api.main.id
-  route_key = "ANY /resume/{id}"
-  target    = "integrations/${aws_apigatewayv2_integration.resume.id}"
+  route_key = "POST /portfolio"
+  target    = "integrations/${aws_apigatewayv2_integration.portfolio_create.id}"
+}
+
+# API Gateway Route for Portfolio - Get by slug (GET)
+resource "aws_apigatewayv2_route" "portfolio_get" {
+  api_id    = aws_apigatewayv2_api.main.id
+  route_key = "GET /portfolio/{slug}"
+  target    = "integrations/${aws_apigatewayv2_integration.portfolio_get.id}"
+}
+
+# API Gateway Route for Portfolio - List all (GET)
+resource "aws_apigatewayv2_route" "portfolio_list" {
+  api_id    = aws_apigatewayv2_api.main.id
+  route_key = "GET /portfolio"
+  target    = "integrations/${aws_apigatewayv2_integration.portfolio_list.id}"
+}
+
+# API Gateway Integration for Resume Create
+resource "aws_apigatewayv2_integration" "resume_create" {
+  api_id           = aws_apigatewayv2_api.main.id
+  integration_type = "AWS_PROXY"
+  integration_uri  = aws_lambda_function.resume_create.invoke_arn
+  integration_method = "POST"
+}
+
+# API Gateway Integration for Resume List
+resource "aws_apigatewayv2_integration" "resume_list" {
+  api_id           = aws_apigatewayv2_api.main.id
+  integration_type = "AWS_PROXY"
+  integration_uri  = aws_lambda_function.resume_list.invoke_arn
+  integration_method = "POST"
+}
+
+# API Gateway Route for Resume - Create (POST)
+resource "aws_apigatewayv2_route" "resume_create" {
+  api_id    = aws_apigatewayv2_api.main.id
+  route_key = "POST /resume"
+  target    = "integrations/${aws_apigatewayv2_integration.resume_create.id}"
+}
+
+# API Gateway Route for Resume - List all (GET)
+resource "aws_apigatewayv2_route" "resume_list" {
+  api_id    = aws_apigatewayv2_api.main.id
+  route_key = "GET /resume"
+  target    = "integrations/${aws_apigatewayv2_integration.resume_list.id}"
+}
+
+# API Gateway Integration for Image Upload
+resource "aws_apigatewayv2_integration" "image_upload" {
+  api_id           = aws_apigatewayv2_api.main.id
+  integration_type = "AWS_PROXY"
+  integration_uri  = aws_lambda_function.image_upload.invoke_arn
+  integration_method = "POST"
+}
+
+# API Gateway Route for Image Upload (POST)
+resource "aws_apigatewayv2_route" "image_upload" {
+  api_id    = aws_apigatewayv2_api.main.id
+  route_key = "POST /image/upload"
+  target    = "integrations/${aws_apigatewayv2_integration.image_upload.id}"
 }
 
 # API Gateway Stage
@@ -148,18 +194,50 @@ resource "aws_lambda_permission" "blogpost_list_api_gw" {
   source_arn    = "${aws_apigatewayv2_api.main.execution_arn}/*/*"
 }
 
-resource "aws_lambda_permission" "portfolio_api_gw" {
+resource "aws_lambda_permission" "portfolio_create_api_gw" {
   statement_id  = "AllowExecutionFromAPIGateway"
   action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.portfolio.function_name
+  function_name = aws_lambda_function.portfolio_create.function_name
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_apigatewayv2_api.main.execution_arn}/*/*"
 }
 
-resource "aws_lambda_permission" "resume_api_gw" {
+resource "aws_lambda_permission" "portfolio_get_api_gw" {
   statement_id  = "AllowExecutionFromAPIGateway"
   action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.resume.function_name
+  function_name = aws_lambda_function.portfolio_get.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_apigatewayv2_api.main.execution_arn}/*/*"
+}
+
+resource "aws_lambda_permission" "portfolio_list_api_gw" {
+  statement_id  = "AllowExecutionFromAPIGateway"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.portfolio_list.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_apigatewayv2_api.main.execution_arn}/*/*"
+}
+
+resource "aws_lambda_permission" "resume_create_api_gw" {
+  statement_id  = "AllowExecutionFromAPIGateway"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.resume_create.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_apigatewayv2_api.main.execution_arn}/*/*"
+}
+
+resource "aws_lambda_permission" "resume_list_api_gw" {
+  statement_id  = "AllowExecutionFromAPIGateway"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.resume_list.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_apigatewayv2_api.main.execution_arn}/*/*"
+}
+
+resource "aws_lambda_permission" "image_upload_api_gw" {
+  statement_id  = "AllowExecutionFromAPIGateway"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.image_upload.function_name
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_apigatewayv2_api.main.execution_arn}/*/*"
 }

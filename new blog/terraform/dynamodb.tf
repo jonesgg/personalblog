@@ -19,10 +19,10 @@ resource "aws_dynamodb_table" "blogpost" {
 resource "aws_dynamodb_table" "portfolio" {
   name           = "portfolio"
   billing_mode   = "PAY_PER_REQUEST"
-  hash_key       = "id"
+  hash_key       = "slug"
 
   attribute {
-    name = "id"
+    name = "slug"
     type = "S"
   }
 

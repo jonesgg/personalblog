@@ -40,12 +40,12 @@ def upload_image_to_s3(
         s3_key = file_name
     
     # Upload to S3
+    # Note: ACLs are disabled on new S3 buckets, so we rely on bucket policy for public access
     s3_client.put_object(
         Bucket=bucket_name,
         Key=s3_key,
         Body=file_content,
-        ContentType=content_type,
-        ACL='public-read'  # Make the image publicly accessible
+        ContentType=content_type
     )
     
     # Construct and return the public URL

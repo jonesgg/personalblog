@@ -43,8 +43,12 @@ output "lambda_functions" {
     blogpost_create = aws_lambda_function.blogpost_create.function_name
     blogpost_get    = aws_lambda_function.blogpost_get.function_name
     blogpost_list   = aws_lambda_function.blogpost_list.function_name
-    portfolio        = aws_lambda_function.portfolio.function_name
-    resume           = aws_lambda_function.resume.function_name
+    portfolio_create = aws_lambda_function.portfolio_create.function_name
+    portfolio_get    = aws_lambda_function.portfolio_get.function_name
+    portfolio_list   = aws_lambda_function.portfolio_list.function_name
+    resume_create    = aws_lambda_function.resume_create.function_name
+    resume_list      = aws_lambda_function.resume_list.function_name
+    image_upload     = aws_lambda_function.image_upload.function_name
   }
 }
 

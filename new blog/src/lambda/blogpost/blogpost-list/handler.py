@@ -20,9 +20,26 @@ def lambda_handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
         # List all blogposts
         items = scan_table(BLOGPOST_TABLE)
         
-        # Extract simplified information
+        # Get optional tag filter
+        filter_tag = query_params.get('tag')
+        if filter_tag:
+            filter_tag_lower = filter_tag.lower()
+        
+        # Extract simplified information and apply tag filter if provided
         simplified_blogposts = []
         for item in items:
+            # Apply tag filter if provided
+            if filter_tag:
+                item_tags = item.get('tags', [])
+                # Check if any tag matches (case-insensitive)
+                tag_matches = any(
+                    tag.lower() == filter_tag_lower 
+                    for tag in item_tags 
+                    if isinstance(tag, str)
+                )
+                if not tag_matches:
+                    continue  # Skip this blogpost if tag doesn't match
+            
             simplified = {
                 'title_image_url': item.get('title_image_url', ''),
                 'slug': item.get('slug', ''),

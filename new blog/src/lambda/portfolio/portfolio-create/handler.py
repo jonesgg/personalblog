@@ -3,16 +3,17 @@ from typing import Dict, Any, Tuple, Optional
 from datetime import datetime
 
 from utils.dynamodb_helper import (
-    BLOGPOST_TABLE,
+    PORTFOLIO_TABLE,
     create_item,
     get_item
 )
 
+
 def lambda_handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     """
-    Lambda handler for creating blogposts.
+    Lambda handler for creating portfolio items.
     
-    Endpoint: POST /blogpost
+    Endpoint: POST /portfolio
     """
     # API Gateway HTTP API v2 format
     body = event.get('body', '{}')
@@ -27,8 +28,8 @@ def lambda_handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
         if isinstance(body, str):
             body = json.loads(body) if body else {}
         
-        # Create blogpost
-        result = create_blogpost(body)
+        # Create portfolio item
+        result = create_portfolio(body)
         if 'error' in result:
             return error_response(result['status_code'], result['error'])
         return success_response(result['status_code'], result['data'])
@@ -40,38 +41,30 @@ def lambda_handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
         return error_response(500, f"Internal server error: {str(e)}")
 
 
-def validate_blogpost(data: Dict[str, Any]) -> Tuple[bool, Optional[str]]:
+def validate_portfolio(data: Dict[str, Any]) -> Tuple[bool, Optional[str]]:
     """
-    Validate blogpost data structure.
+    Validate portfolio data structure.
     
     Returns:
         (is_valid, error_message)
     """
     # Required fields
-    required_fields = ['slug', 'id', 'title', 'content', 'date', 'author', 'tags']
+    required_fields = ['id', 'slug', 'title', 'content']
     for field in required_fields:
         if field not in data:
             return False, f"Missing required field: {field}"
-    
-    # Validate slug is a string
-    if not isinstance(data['slug'], str) or not data['slug'].strip():
-        return False, "slug must be a non-empty string"
     
     # Validate id is a string
     if not isinstance(data['id'], str) or not data['id'].strip():
         return False, "id must be a non-empty string"
     
+    # Validate slug is a string
+    if not isinstance(data['slug'], str) or not data['slug'].strip():
+        return False, "slug must be a non-empty string"
+    
     # Validate title is a string
     if not isinstance(data['title'], str) or not data['title'].strip():
         return False, "title must be a non-empty string"
-    
-    # Validate title_image_url is a string (can be empty)
-    if 'title_image_url' in data and not isinstance(data['title_image_url'], str):
-        return False, "title_image_url must be a string"
-    
-    # Validate summary is a string (optional)
-    if 'summary' in data and not isinstance(data['summary'], str):
-        return False, "summary must be a string"
     
     # Validate content is a list
     if not isinstance(data['content'], list):
@@ -103,73 +96,52 @@ def validate_blogpost(data: Dict[str, Any]) -> Tuple[bool, Optional[str]]:
         if not isinstance(value, str):
             return False, f"content item at index {idx}: {key} must be a string"
     
-    # Validate date is a string (ISO format preferred)
-    if not isinstance(data['date'], str) or not data['date'].strip():
-        return False, "date must be a non-empty string"
-    
-    # Validate author is a string
-    if not isinstance(data['author'], str) or not data['author'].strip():
-        return False, "author must be a non-empty string"
-    
-    # Validate tags is a list of strings
-    if not isinstance(data['tags'], list):
-        return False, "tags must be a list"
-    
-    for tag_idx, tag in enumerate(data['tags']):
-        if not isinstance(tag, str):
-            return False, f"tag at index {tag_idx} must be a string"
-    
     return True, None
 
 
-def create_blogpost(body: Dict[str, Any]) -> Dict[str, Any]:
+def create_portfolio(body: Dict[str, Any]) -> Dict[str, Any]:
     """
-    Create a new blogpost.
+    Create a new portfolio item.
     
     Expected body structure:
     {
-        "slug": "my-blog-post",
         "id": "unique-id",
-        "title": "My Blog Post",
-        "title_image_url": "https://...",
-        "summary": "A brief summary of the blog post",
+        "slug": "my-portfolio-item",
+        "title": "My Portfolio Item",
         "content": [
             {"title": "my title"},
             {"image_url": "https://..."},
             {"paragraph": "single paragraph"},
             {"paragraph": "single paragraph2"}
-        ],
-        "date": "2024-01-01",
-        "author": "John Doe",
-        "tags": ["tech", "python"]
+        ]
     }
     """
-    # Validate the blogpost data
-    is_valid, error_message = validate_blogpost(body)
+    # Validate the portfolio data
+    is_valid, error_message = validate_portfolio(body)
     if not is_valid:
         return {'error': f"Validation error: {error_message}", 'status_code': 400}
     
-    # Check if blogpost with this slug already exists
-    existing = get_item(BLOGPOST_TABLE, {'slug': body['slug']})
+    # Check if portfolio item with this slug already exists
+    existing = get_item(PORTFOLIO_TABLE, {'slug': body['slug']})
     if existing:
-        return {'error': f"Blogpost with slug '{body['slug']}' already exists", 'status_code': 409}
+        return {'error': f"Portfolio item with slug '{body['slug']}' already exists", 'status_code': 409}
     
     # Add created_at timestamp
     body['created_at'] = datetime.utcnow().isoformat()
     
     # Store in DynamoDB (using slug as the key)
     try:
-        item = create_item(BLOGPOST_TABLE, body)
+        item = create_item(PORTFOLIO_TABLE, body)
         return {
             'data': {
-                'message': 'Blogpost created successfully',
+                'message': 'Portfolio item created successfully',
                 'slug': item['slug']
             },
             'status_code': 201
         }
     except Exception as e:
-        print(f"Error creating blogpost: {str(e)}")
-        return {'error': f"Failed to create blogpost: {str(e)}", 'status_code': 500}
+        print(f"Error creating portfolio item: {str(e)}")
+        return {'error': f"Failed to create portfolio item: {str(e)}", 'status_code': 500}
 
 
 def success_response(status_code: int, data: Any) -> Dict[str, Any]:
@@ -194,3 +166,4 @@ def error_response(status_code: int, message: str) -> Dict[str, Any]:
         },
         'body': json.dumps({'error': message})
     }
+
