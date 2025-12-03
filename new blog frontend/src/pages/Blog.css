@@ -1,0 +1,129 @@
+.blog {
+  min-height: calc(100vh - 80px);
+  padding: 3rem 2rem;
+}
+
+.page-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.page-title {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  background: var(--gradient-1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.blog-content {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.blog-post {
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.blog-post::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--gradient-1);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.blog-post:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(99, 102, 241, 0.15);
+  border-color: var(--border-hover);
+}
+
+.blog-post:hover::before {
+  transform: scaleX(1);
+}
+
+.blog-post:last-child {
+  margin-bottom: 0;
+}
+
+.blog-post-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.blog-post-header h2 {
+  font-size: 1.8rem;
+  color: var(--text-primary);
+  margin: 0;
+  background: var(--gradient-1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  flex: 1;
+  min-width: 200px;
+}
+
+.blog-post-date {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  font-style: italic;
+  white-space: nowrap;
+}
+
+.blog-post-excerpt {
+  color: var(--text-secondary);
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+  font-size: 1.05rem;
+}
+
+.blog-read-more {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.blog-read-more:hover {
+  color: var(--primary-dark);
+  transform: translateX(4px);
+}
+
+@media (max-width: 768px) {
+  .page-title {
+    font-size: 2rem;
+  }
+
+  .blog-post {
+    padding: 1.5rem;
+  }
+
+  .blog-post-header h2 {
+    font-size: 1.4rem;
+  }
+
+  .blog-post-excerpt {
+    font-size: 1rem;
+  }
+}
+

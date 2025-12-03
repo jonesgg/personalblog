@@ -1,0 +1,96 @@
+.resume {
+  min-height: calc(100vh - 80px);
+  padding: 3rem 2rem;
+}
+
+.resume-content {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.resume-section {
+  margin-bottom: 3rem;
+  background: rgba(30, 41, 59, 0.5);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 2rem;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.resume-section:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(99, 102, 241, 0.2);
+}
+
+.resume-section h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: var(--primary-light);
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 0.5rem;
+}
+
+.resume-item {
+  margin-bottom: 2rem;
+}
+
+.resume-item:last-child {
+  margin-bottom: 0;
+}
+
+.resume-item h3 {
+  font-size: 1.3rem;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.resume-meta {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-bottom: 0.75rem;
+  font-style: italic;
+}
+
+.resume-item p {
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.skills-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.skill-tag {
+  background: var(--gradient-1);
+  color: var(--text-primary);
+  padding: 0.5rem 1.25rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  box-shadow: 0 4px 6px rgba(99, 102, 241, 0.3);
+  transition: transform 0.2s ease;
+}
+
+.skill-tag:hover {
+  transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+  .resume-section {
+    padding: 1.5rem;
+  }
+
+  .resume-section h2 {
+    font-size: 1.5rem;
+  }
+
+  .resume-item h3 {
+    font-size: 1.1rem;
+  }
+}
+
