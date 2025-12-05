@@ -9,6 +9,13 @@
 # The stage name is "dev" by default (from terraform variables)
 export API_BASE_URL="${API_BASE_URL:-https://0sjwzpf8e0.execute-api.us-east-1.amazonaws.com/dev}"
 
+# Admin token for authentication (plain token, not the bcrypt hash)
+# This is the plain token you saved when running generate-secret-token.py --show-plain
+# Set it as an environment variable: export ADMIN_TOKEN="your-plain-token-here"
+# Or uncomment and set it directly below:
+# ADMIN_TOKEN="your-plain-token-here"
+export ADMIN_TOKEN="${ADMIN_TOKEN:-}"
+
 # Images directory
 export IMAGES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/images"
 

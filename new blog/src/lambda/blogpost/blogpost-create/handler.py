@@ -1,4 +1,6 @@
 import json
+import os
+import hmac
 from typing import Dict, Any, Tuple, Optional
 from datetime import datetime
 
@@ -14,6 +16,21 @@ def lambda_handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     
     Endpoint: POST /blogpost
     """
+    # Check admin token authentication
+    headers = event.get('headers', {})
+    admin_token = headers.get('x-admin-token', '')
+    secret_token = os.environ.get('SECRET_TOKEN', '')
+    
+    if not secret_token or not admin_token:
+        return error_response(400, "")
+    
+    # Verify token using constant-time comparison to prevent timing attacks
+    try:
+        if not hmac.compare_digest(admin_token.encode('utf-8'), secret_token.encode('utf-8')):
+            return error_response(400, "")
+    except Exception:
+        return error_response(400, "")
+    
     # API Gateway HTTP API v2 format
     body = event.get('body', '{}')
     

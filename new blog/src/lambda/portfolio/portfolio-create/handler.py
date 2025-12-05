@@ -1,4 +1,6 @@
 import json
+import os
+import hmac
 from typing import Dict, Any, Tuple, Optional
 from datetime import datetime
 
@@ -15,6 +17,21 @@ def lambda_handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     
     Endpoint: POST /portfolio
     """
+    # Check admin token authentication
+    headers = event.get('headers', {})
+    admin_token = headers.get('x-admin-token', '')
+    secret_token = os.environ.get('SECRET_TOKEN', '')
+    
+    if not secret_token or not admin_token:
+        return error_response(400, "")
+    
+    # Verify token using constant-time comparison to prevent timing attacks
+    try:
+        if not hmac.compare_digest(admin_token.encode('utf-8'), secret_token.encode('utf-8')):
+            return error_response(400, "")
+    except Exception:
+        return error_response(400, "")
+    
     # API Gateway HTTP API v2 format
     body = event.get('body', '{}')
     
@@ -49,7 +66,7 @@ def validate_portfolio(data: Dict[str, Any]) -> Tuple[bool, Optional[str]]:
         (is_valid, error_message)
     """
     # Required fields
-    required_fields = ['id', 'slug', 'title', 'content']
+    required_fields = ['id', 'slug', 'title', 'summary', 'content']
     for field in required_fields:
         if field not in data:
             return False, f"Missing required field: {field}"
@@ -65,6 +82,10 @@ def validate_portfolio(data: Dict[str, Any]) -> Tuple[bool, Optional[str]]:
     # Validate title is a string
     if not isinstance(data['title'], str) or not data['title'].strip():
         return False, "title must be a non-empty string"
+    
+    # Validate summary is a string
+    if not isinstance(data['summary'], str) or not data['summary'].strip():
+        return False, "summary must be a non-empty string"
     
     # Validate content is a list
     if not isinstance(data['content'], list):
@@ -108,6 +129,7 @@ def create_portfolio(body: Dict[str, Any]) -> Dict[str, Any]:
         "id": "unique-id",
         "slug": "my-portfolio-item",
         "title": "My Portfolio Item",
+        "summary": "Brief summary of the portfolio item",
         "content": [
             {"title": "my title"},
             {"image_url": "https://..."},

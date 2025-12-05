@@ -121,16 +121,43 @@
 
 .resume-item {
   margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: rgba(99, 102, 241, 0.02);
+  border-radius: 8px;
+  border-left: 3px solid var(--primary-color);
+  transition: background 0.3s ease;
+}
+
+.resume-item:hover {
+  background: rgba(99, 102, 241, 0.05);
 }
 
 .resume-item:last-child {
   margin-bottom: 0;
 }
 
+.resume-item img {
+  max-width: 80px;
+  max-height: 80px;
+  margin-bottom: 1rem;
+  object-fit: contain;
+  border-radius: 4px;
+  background: white;
+  padding: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 .resume-item h4 {
   font-size: 1.2rem;
   color: var(--text-primary);
   margin-bottom: 0.5rem;
+}
+
+.resume-company {
+  color: var(--text-primary);
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
 }
 
 .resume-meta {

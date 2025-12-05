@@ -27,6 +27,7 @@ def lambda_handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                 'id': item.get('id', ''),
                 'slug': item.get('slug', ''),
                 'title': item.get('title', ''),
+                'summary': item.get('summary', ''),
                 'created_at': item.get('created_at', '')
             }
             simplified_portfolios.append(simplified)

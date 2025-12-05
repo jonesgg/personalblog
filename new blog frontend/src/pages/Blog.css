@@ -8,14 +8,57 @@
   margin: 0 auto;
 }
 
+.blog-header {
+  margin-bottom: 2rem;
+}
+
 .page-title {
   font-size: 3rem;
   font-weight: 700;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   background: var(--gradient-1);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+
+.blog-filter-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: rgba(99, 102, 241, 0.1);
+  border-radius: 8px;
+  border-left: 4px solid var(--primary-color);
+  flex-wrap: wrap;
+}
+
+.blog-filter-info span {
+  color: var(--text-primary);
+  font-size: 1rem;
+}
+
+.blog-filter-info strong {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.clear-filter-button {
+  background: var(--gradient-1);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 4px rgba(99, 102, 241, 0.2);
+}
+
+.clear-filter-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(99, 102, 241, 0.3);
 }
 
 .blog-content {
@@ -27,12 +70,24 @@
   background: #ffffff;
   border: 1px solid var(--border-color);
   border-radius: 12px;
-  padding: 2rem;
+  padding: 0;
   margin-bottom: 2rem;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+}
+
+.blog-post-image {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  display: block;
+  border-radius: 12px 12px 0 0;
+}
+
+.blog-post-content-wrapper {
+  padding: 2rem;
 }
 
 .blog-post::before {
@@ -68,6 +123,7 @@
   margin-bottom: 1rem;
   flex-wrap: wrap;
   gap: 1rem;
+  padding: 2rem 2rem 0 2rem;
 }
 
 .blog-post-header h2 {
@@ -94,6 +150,7 @@
   line-height: 1.8;
   margin-bottom: 1.5rem;
   font-size: 1.05rem;
+  padding: 0 2rem;
 }
 
 .blog-read-more {
@@ -102,6 +159,7 @@
   font-weight: 500;
   transition: all 0.3s ease;
   display: inline-block;
+  padding: 0 2rem 2rem 2rem;
 }
 
 .blog-read-more:hover {
@@ -114,8 +172,30 @@
     font-size: 2rem;
   }
 
-  .blog-post {
-    padding: 1.5rem;
+  .blog-filter-info {
+    padding: 0.75rem;
+    font-size: 0.9rem;
+  }
+
+  .clear-filter-button {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+  }
+
+  .blog-post-header {
+    padding: 1.5rem 1.5rem 0 1.5rem;
+  }
+
+  .blog-post-excerpt {
+    padding: 0 1.5rem;
+  }
+
+  .blog-read-more {
+    padding: 0 1.5rem 1.5rem 1.5rem;
+  }
+
+  .blog-post-image {
+    height: 200px;
   }
 
   .blog-post-header h2 {

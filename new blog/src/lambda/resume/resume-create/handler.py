@@ -1,4 +1,6 @@
 import json
+import os
+import hmac
 from typing import Dict, Any, Tuple, Optional
 from datetime import datetime
 
@@ -15,6 +17,21 @@ def lambda_handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     
     Endpoint: POST /resume
     """
+    # Check admin token authentication
+    headers = event.get('headers', {})
+    admin_token = headers.get('x-admin-token', '')
+    secret_token = os.environ.get('SECRET_TOKEN', '')
+    
+    if not secret_token or not admin_token:
+        return error_response(400, "")
+    
+    # Verify token using constant-time comparison to prevent timing attacks
+    try:
+        if not hmac.compare_digest(admin_token.encode('utf-8'), secret_token.encode('utf-8')):
+            return error_response(400, "")
+    except Exception:
+        return error_response(400, "")
+    
     # API Gateway HTTP API v2 format
     body = event.get('body', '{}')
     
@@ -49,7 +66,7 @@ def validate_resume(data: Dict[str, Any]) -> Tuple[bool, Optional[str]]:
         (is_valid, error_message)
     """
     # Required fields
-    required_fields = ['id', 'image_url', 'start_month', 'end_month', 'description']
+    required_fields = ['id', 'title', 'company_name', 'image_url', 'start_month', 'end_month', 'description']
     for field in required_fields:
         if field not in data:
             return False, f"Missing required field: {field}"
@@ -57,6 +74,14 @@ def validate_resume(data: Dict[str, Any]) -> Tuple[bool, Optional[str]]:
     # Validate id is a string
     if not isinstance(data['id'], str) or not data['id'].strip():
         return False, "id must be a non-empty string"
+    
+    # Validate title is a string
+    if not isinstance(data['title'], str) or not data['title'].strip():
+        return False, "title must be a non-empty string"
+    
+    # Validate company_name is a string
+    if not isinstance(data['company_name'], str) or not data['company_name'].strip():
+        return False, "company_name must be a non-empty string"
     
     # Validate image_url is a string
     if not isinstance(data['image_url'], str) or not data['image_url'].strip():
@@ -84,6 +109,8 @@ def create_resume(body: Dict[str, Any]) -> Dict[str, Any]:
     Expected body structure:
     {
         "id": "unique-id",
+        "title": "Position Title",
+        "company_name": "Company Name",
         "image_url": "https://...",
         "start_month": "2024-01",
         "end_month": "2024-12",

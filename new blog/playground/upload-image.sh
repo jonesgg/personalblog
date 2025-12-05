@@ -1,8 +1,10 @@
 #!/bin/bash
 
 # Script to upload an image to S3 via the API
+# Supports JPG, JPEG, and PNG formats
 # Usage: ./upload-image.sh <image-file> [extension]
 # Example: ./upload-image.sh images/test.jpg .jpg
+# Example: ./upload-image.sh images/test.png .png
 
 set -e
 
@@ -10,11 +12,20 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "${SCRIPT_DIR}/config.sh"
 
+# Check if admin token is set
+if [ -z "${ADMIN_TOKEN}" ]; then
+    echo "❌ Error: ADMIN_TOKEN is not set"
+    echo "Please set it in config.sh or export it as an environment variable:"
+    echo "  export ADMIN_TOKEN=\"your-plain-token-here\""
+    exit 1
+fi
+
 # Require command line argument
 if [ $# -lt 1 ]; then
     echo "Error: Image file argument is required"
     echo "Usage: $0 <image-file> [extension]"
     echo "Example: $0 images/test.jpg .jpg"
+    echo "Example: $0 images/test.png .png"
     exit 1
 fi
 
@@ -35,6 +46,22 @@ fi
 # Ensure extension starts with dot
 if [[ ! "${EXTENSION}" =~ ^\. ]]; then
     EXTENSION=".${EXTENSION}"
+fi
+
+# Normalize extension to lowercase
+EXTENSION=$(echo "${EXTENSION}" | tr '[:upper:]' '[:lower:]')
+
+# Normalize .jpeg to .jpg for consistency
+if [ "${EXTENSION}" = ".jpeg" ]; then
+    EXTENSION=".jpg"
+fi
+
+# Validate extension (only allow common image formats)
+VALID_EXTENSIONS=(".jpg" ".png")
+if [[ ! " ${VALID_EXTENSIONS[@]} " =~ " ${EXTENSION} " ]]; then
+    echo "❌ Error: Unsupported image format: ${EXTENSION}"
+    echo "Supported formats: JPG, PNG"
+    exit 1
 fi
 
 echo "📤 Uploading image: ${IMAGE_FILE}"
@@ -66,6 +93,7 @@ echo "   URL: ${API_BASE_URL}/image/upload"
 if ! RESPONSE=$(curl -s -w "\n%{http_code}" -X POST \
     "${API_BASE_URL}/image/upload" \
     -H "Content-Type: application/json" \
+    -H "x-admin-token: ${ADMIN_TOKEN}" \
     -d "@${TEMP_JSON}" \
     --max-time 60 \
     --connect-timeout 10); then

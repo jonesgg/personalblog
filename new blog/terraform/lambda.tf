@@ -219,6 +219,7 @@ resource "aws_lambda_function" "blogpost_create" {
       PORTFOLIO_TABLE = aws_dynamodb_table.portfolio.name
       EXPERIENCE_TABLE = aws_dynamodb_table.experience.name
       S3_BUCKET       = aws_s3_bucket.images.id
+      SECRET_TOKEN    = var.secret_token
     }
   }
 
@@ -297,6 +298,7 @@ resource "aws_lambda_function" "portfolio_create" {
       PORTFOLIO_TABLE = aws_dynamodb_table.portfolio.name
       EXPERIENCE_TABLE = aws_dynamodb_table.experience.name
       S3_BUCKET       = aws_s3_bucket.images.id
+      SECRET_TOKEN    = var.secret_token
     }
   }
 
@@ -375,6 +377,7 @@ resource "aws_lambda_function" "resume_create" {
       PORTFOLIO_TABLE = aws_dynamodb_table.portfolio.name
       EXPERIENCE_TABLE = aws_dynamodb_table.experience.name
       S3_BUCKET       = aws_s3_bucket.images.id
+      SECRET_TOKEN    = var.secret_token
     }
   }
 
@@ -427,6 +430,7 @@ resource "aws_lambda_function" "image_upload" {
       PORTFOLIO_TABLE = aws_dynamodb_table.portfolio.name
       EXPERIENCE_TABLE = aws_dynamodb_table.experience.name
       S3_BUCKET       = aws_s3_bucket.images.id
+      SECRET_TOKEN    = var.secret_token
     }
   }
 

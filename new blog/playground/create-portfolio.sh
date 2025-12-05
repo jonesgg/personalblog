@@ -11,17 +11,26 @@ source "${SCRIPT_DIR}/config.sh"
 
 echo "💼 Creating portfolio item..."
 
+# Check if admin token is set
+if [ -z "${ADMIN_TOKEN}" ]; then
+    echo "❌ Error: ADMIN_TOKEN is not set"
+    echo "Please set it in config.sh or export it as an environment variable:"
+    echo "  export ADMIN_TOKEN=\"your-plain-token-here\""
+    exit 1
+fi
+
 # Sample portfolio data - modify as needed
 JSON_PAYLOAD=$(cat <<EOF
 {
   "id": "portfolio-$(date +%s)",
-  "slug": "my-test-portfolio",
-  "title": "Test Portfolio Project",
+  "slug": "react-spectrum-graph-library",
+  "title": "React Spectrum Graph Library",
+  "summary": "React Spectrum graph library for creating interactive graphs.",
   "content": [
-    {"title": "Project Overview"},
-    {"paragraph": "This is a description of my portfolio project."},
-    {"image_url": "https://blog-backend-images-020141610921.s3.us-east-1.amazonaws.com/51533ab9-ffdb-4a87-9af5-668acbdbda10.jpg"},
-    {"paragraph": "Here's more information about the project."}
+    {"title": "My React Spectrum graph library"},
+    {"paragraph": "React Spectrum graph library for creating interactive graphs. Built at Adobe."},
+    {"image_url": "https://blog-backend-images-020141610921.s3.us-east-1.amazonaws.com/4fe4e478-c60f-4f2d-b4c8-912cac404057.png"},
+    {"paragraph": "It is built using TypeScript, React, and the Vega Visualization Grammar"}
   ]
 }
 EOF
@@ -31,6 +40,7 @@ EOF
 RESPONSE=$(curl -s -w "\n%{http_code}" -X POST \
     "${API_BASE_URL}/portfolio" \
     -H "Content-Type: application/json" \
+    -H "x-admin-token: ${ADMIN_TOKEN}" \
     -d "${JSON_PAYLOAD}")
 
 # Extract HTTP status code (last line)

@@ -11,14 +11,24 @@ source "${SCRIPT_DIR}/config.sh"
 
 echo "📄 Creating resume item..."
 
+# Check if admin token is set
+if [ -z "${ADMIN_TOKEN}" ]; then
+    echo "❌ Error: ADMIN_TOKEN is not set"
+    echo "Please set it in config.sh or export it as an environment variable:"
+    echo "  export ADMIN_TOKEN=\"your-plain-token-here\""
+    exit 1
+fi
+
 # Sample resume data - modify as needed
 JSON_PAYLOAD=$(cat <<EOF
 {
   "id": "resume-$(date +%s)",
-  "image_url": "https://example.com/company-logo.jpg",
-  "start_month": "2024-01",
-  "end_month": "2024-12",
-  "description": "Software Engineer at Example Company. Worked on various projects and gained valuable experience."
+  "title": "test resume",
+  "company_name": "test company",
+  "image_url": "https://blog-backend-images-020141610921.s3.us-east-1.amazonaws.com/3afcaa42-b8b3-4e58-9523-26f60164c99e.png",
+  "start_month": "2025-01",
+  "end_month": "2025-04",
+  "description": "test description"
 }
 EOF
 )
@@ -27,6 +37,7 @@ EOF
 RESPONSE=$(curl -s -w "\n%{http_code}" -X POST \
     "${API_BASE_URL}/resume" \
     -H "Content-Type: application/json" \
+    -H "x-admin-token: ${ADMIN_TOKEN}" \
     -d "${JSON_PAYLOAD}")
 
 # Extract HTTP status code (last line)

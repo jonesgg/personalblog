@@ -5,4 +5,5 @@ s3_bucket_name  = ""  # Leave empty for auto-generated name
 lambda_runtime  = "python3.11"
 lambda_timeout  = 30
 lambda_memory_size = 256
+secret_token    = "your-secret-token-here"  # Secret token for admin authentication (x-admin-token header). Use generate-secret-token.py to generate a secure token.
 

@@ -40,3 +40,9 @@ variable "lambda_memory_size" {
   default     = 256
 }
 
+variable "secret_token" {
+  description = "Secret token for admin authentication (x-admin-token header)"
+  type        = string
+  sensitive   = true
+}
+

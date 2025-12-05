@@ -1,6 +1,66 @@
+import { useState, useEffect } from 'react'
 import './Home.css'
+import { API_ENDPOINTS } from '../config/api'
 
 function Home() {
+  const [resumeItems, setResumeItems] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+
+  useEffect(() => {
+    const fetchResumeItems = async () => {
+      try {
+        setLoading(true)
+        setError(null)
+        const response = await fetch(API_ENDPOINTS.RESUME)
+        
+        if (!response.ok) {
+          throw new Error(`Failed to fetch resume items: ${response.statusText}`)
+        }
+
+        const data = await response.json()
+        
+        // Handle Lambda response format (statusCode, headers, body)
+        let resumeData = data
+        if (data.statusCode && data.body) {
+          // If body is a string, parse it
+          resumeData = typeof data.body === 'string' ? JSON.parse(data.body) : data.body
+        }
+
+        if (resumeData.resume && Array.isArray(resumeData.resume)) {
+          // Sort by start_month descending (most recent first)
+          const sorted = [...resumeData.resume].sort((a, b) => {
+            return b.start_month.localeCompare(a.start_month)
+          })
+          setResumeItems(sorted)
+        } else {
+          setResumeItems([])
+        }
+      } catch (err) {
+        console.error('Error fetching resume items:', err)
+        setError(err.message)
+        setResumeItems([])
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchResumeItems()
+  }, [])
+
+  const formatDateRange = (startMonth, endMonth) => {
+    const formatMonth = (monthStr) => {
+      if (!monthStr) return ''
+      const [year, month] = monthStr.split('-')
+      const date = new Date(year, parseInt(month) - 1)
+      return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+    }
+
+    const start = formatMonth(startMonth)
+    const end = endMonth ? formatMonth(endMonth) : 'Present'
+    return `${start} - ${end}`
+  }
+
   return (
     <div className="page home">
       <div className="home-hero">
@@ -34,11 +94,31 @@ function Home() {
           <div className="resume-content">
             <div className="resume-subsection">
               <h3>Experience</h3>
-              <div className="resume-item">
-                <h4>Your Position Title</h4>
-                <p className="resume-meta">Company Name | Date Range</p>
-                <p>Description of your role and achievements...</p>
-              </div>
+              {loading && <p>Loading experience...</p>}
+              {error && <p style={{ color: 'red' }}>Error: {error}</p>}
+              {!loading && !error && resumeItems.length === 0 && (
+                <p>No experience items found.</p>
+              )}
+              {!loading && !error && resumeItems.map((item) => (
+                <div key={item.id} className="resume-item">
+                  {item.image_url && (
+                    <img 
+                      src={item.image_url} 
+                      alt={item.company_name || "Company logo"} 
+                    />
+                  )}
+                  {item.title && (
+                    <h4>{item.title}</h4>
+                  )}
+                  {item.company_name && (
+                    <p className="resume-company">{item.company_name}</p>
+                  )}
+                  <p className="resume-meta">{formatDateRange(item.start_month, item.end_month)}</p>
+                  {item.description && (
+                    <p>{item.description}</p>
+                  )}
+                </div>
+              ))}
             </div>
             
             <div className="resume-subsection">
