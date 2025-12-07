@@ -34,10 +34,19 @@ Other - Terraform for deployment, Cloudwatch for debugging and logs, Route53 for
 <img width="546" height="800" alt="Screenshot 2025-12-03 at 11 41 04 AM" src="https://github.com/user-attachments/assets/8bcc7370-770b-4376-8dc5-266248c98907" />
 
 
-**Project Timeline and Goals**
+**Initial Project Timeline and Goals**
 
 December 1 - Idea generation and project selection
 December 2 - Project design and bootstrapping
 December 3 - Lambda and backend design
 December 4 - Frontend finishing up
 December 5 - Deployment of project
+
+**Actual Time log**
+print("Mean Reward: ", mean_reward_custom)
+2.5 hrs Dec 1 Brainstorming, designing architecture
+4 hrs Dec 2 Project bootstrapping, git setup, backend framework
+5.5 hrs dec 3 pitch, bulk of backend work, some frontend work
+5 hrs dec 4 frontend design, finish up backend, start working more on frontend 
+6 hrs dec 5 big fixes and improvements to backend, most of frontend work, test data population, deployment
+6 hrs dec bug fixes, deployment issues, presentation planning
