@@ -23,26 +23,25 @@ fi
 JSON_PAYLOAD=$(cat <<EOF
 {
   "id": "blog-$(date +%s)",
-  "slug": "ballers",
-  "title": "Ballers",
+  "slug": "my-personal-website",
+  "title": "My Personal Website",
   "title_image_url": "https://blog-backend-images-020141610921.s3.us-east-1.amazonaws.com/2e0c8123-5b89-42b3-af2e-f16163395bec.jpg",
-  "summary": "The greatest ballers of all time",
+  "summary": "A journey of five years: How I built my personal website.",
   "content": [
-    {"title": "They shaped the game, they shaped the world"},
-    {"paragraph": "We can't ignore the greatest rivalry in basketball history. No it's not Lebron"},
-    {"image_url": "https://blog-backend-images-020141610921.s3.us-east-1.amazonaws.com/56137c9f-6bb3-4332-9941-049b8f294e3a.jpg"},
-    {"paragraph": "But maybe these had the greatest rivalry, but who was the greatest player of all time? It still isn't Lebron, who cares about him. Jordan is clealy better..."},
-    {"image_url": "https://blog-backend-images-020141610921.s3.us-east-1.amazonaws.com/6445f57b-0a1f-4b58-b4c4-9ecb1f5b3f86.png"},
-    {"paragraph": "Jordan became the face of basketball. As if winning three championships in a row wasn't enough, he retired and then came back to do it all again. No one had ever done that before and it will likely never happen again."},
-    {"title": "But wait, wait about the others?"},
-    {"image_url": "https://blog-backend-images-020141610921.s3.us-east-1.amazonaws.com/4363349f-fce1-4ba9-bab4-4353f02338a8.jpg"},
-    {"paragraph": "Yeah, this one is a baller too. No doubt"},
-    {"image_url": "https://blog-backend-images-020141610921.s3.us-east-1.amazonaws.com/8015c0ec-46f1-45bb-bf88-324aebfe0770.png"},
-    {"paragraph": "So is this one"}
+    {"title": "How it started"},
+    {"paragraph": "Back in 2020 I took a job at BYU OIT and learned the basics of web development. I loved what I was doing and wanted to practice my skills more. By the end of my freshman year I had built a basic website with my resume. It was pretty basic but I was proud of it."},
+    {"image_url": "https://blog-backend-images-020141610921.s3.us-east-1.amazonaws.com/af161e36-202a-4391-a617-14c9957a1845.png"},
+    {"paragraph": "The website served as a nice resume reference for employers but as the years went by it was clear that I needed something more. The biggest issue was always time. I wanted to build a blog along with a slick new site but I never had enough time. I had even tried twice but stopped midway through the project because I ran out of time."},
+    {"title": "A new opportunity"},
+    {"paragraph": "Fortunetely, I took this class with a professor who was willing to give his students time to work on something meaningful to them. In all honesty I'm a senior who has been grinding for a while and just wants to be done. This project gave me the opportunity to work on something that I care about and I'm very grateful for it."},
+    {"title": "Site Architecture"},
+    {"image_url": "https://blog-backend-images-020141610921.s3.us-east-1.amazonaws.com/74976594-6eff-447d-82ba-f7e523b9c868.png"},
+    {"image_url": "https://blog-backend-images-020141610921.s3.us-east-1.amazonaws.com/58ec575b-f35c-4f67-be27-99acfbddafcb.png"},
+    {"image_url": "https://blog-backend-images-020141610921.s3.us-east-1.amazonaws.com/13a350e8-9dbc-463b-a584-6e30442ec122.png"}
   ],
   "date": "$(date -u +%Y-%m-%d)",
   "author": "Grant Rencher",
-  "tags": ["basketball", "blog", "ballers"]
+  "tags": ["programming", "blog", "portfolio"]
 }
 EOF
 )

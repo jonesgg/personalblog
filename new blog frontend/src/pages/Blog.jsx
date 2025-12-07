@@ -91,10 +91,10 @@ function Blog() {
             </div>
           )}
         </div>
-        {loading && <p>Loading blog posts...</p>}
-        {error && <p style={{ color: 'red' }}>Error: {error}</p>}
+        {loading && <p className="blog-status-message">Loading blog posts...</p>}
+        {error && <p className="blog-status-message" style={{ color: 'red' }}>Error: {error}</p>}
         {!loading && !error && blogPosts.length === 0 && (
-          <p>No blog posts found{selectedTag ? ` with tag "${selectedTag}"` : ''}.</p>
+          <p className="blog-status-message">No blog posts found{selectedTag ? ` with tag "${selectedTag}"` : ''}.</p>
         )}
         {!loading && !error && blogPosts.length > 0 && (
           <div className="blog-content">

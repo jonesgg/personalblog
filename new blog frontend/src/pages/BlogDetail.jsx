@@ -127,6 +127,7 @@ function BlogDetail() {
           ← Back to Blog
         </button>
         <h1 className="blog-detail-title">{blogPost.title}</h1>
+        <div className="blog-detail-date">{formatDate(blogPost.date)}</div>
         {blogPost.title_image_url && (
           <img 
             src={blogPost.title_image_url} 
@@ -134,7 +135,6 @@ function BlogDetail() {
             className="blog-detail-title-image"
           />
         )}
-        <div className="blog-detail-date">{formatDate(blogPost.date)}</div>
         <div className="blog-detail-content">
           {renderContent()}
         </div>

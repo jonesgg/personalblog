@@ -23,12 +23,12 @@ fi
 JSON_PAYLOAD=$(cat <<EOF
 {
   "id": "resume-$(date +%s)",
-  "title": "test resume",
-  "company_name": "test company",
-  "image_url": "https://blog-backend-images-020141610921.s3.us-east-1.amazonaws.com/3afcaa42-b8b3-4e58-9523-26f60164c99e.png",
-  "start_month": "2025-01",
-  "end_month": "2025-04",
-  "description": "test description"
+  "title": "Software Engineer",
+  "company_name": "Meka Deal Flow",
+  "image_url": "https://blog-backend-images-020141610921.s3.us-east-1.amazonaws.com/9fa91c38-b611-49b5-b500-a19a4192d24e.png",
+  "start_month": "2025-06",
+  "end_month": "",
+  "description": "Designed and built a business assessment tool from scratch that collects company data, evaluates growth   potential, and delivers personalized client reports via email. Developed the backend using AWS Lambda and DynamoDB. Built a responsive React frontend to provide users with an easy to follow assessment experience."
 }
 EOF
 )

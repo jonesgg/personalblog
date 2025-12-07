@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import './Home.css'
 import { API_ENDPOINTS } from '../config/api'
+import profileImage from '../images/profile.jpg'
 
 function Home() {
   const [resumeItems, setResumeItems] = useState([])
@@ -64,22 +65,28 @@ function Home() {
   return (
     <div className="page home">
       <div className="home-hero">
-        <h1 className="home-title">Welcome</h1>
-        <p className="home-subtitle">
-          Developer, Designer, Creative Thinker
-        </p>
+        <img src={profileImage} alt="Grant Rencher" className="profile-image" />
+        <h1 className="home-title">Grant Rencher</h1>
+        {/* <p className="home-subtitle">
+          Software Engineer
+        </p> */}
         <p className="home-description">
-          Welcome to my personal space where I share my work, thoughts, and journey.
+            I'm a Software engineer with experience delivering full-stack solutions, from scalable backend systems to intuitive frontend
+            applications. Skilled at contributing across the entire software development life cycle, with strengths in collaboration,
+            adaptability, and problem-solving. Proven track record of building impactful products that improve customer
+            experiences and operational efficiency.
         </p>
       </div>
 
       <div className="home-content">
-        <section className="home-section about-section">
+        {/* <section className="home-section about-section">
           <h2 className="section-title">About Me</h2>
           <div className="about-content">
             <p>
-              I'm Grant Rencher, a passionate developer and creative professional.
-              This is my personal space where I share my experiences, projects, and insights.
+            I'm a Software engineer with experience delivering full-stack solutions, from scalable backend systems to intuitive frontend
+            applications. Skilled at contributing across the entire software development life cycle, with strengths in collaboration,
+            adaptability, and problem-solving. Proven track record of building impactful products that improve customer
+            experiences and operational efficiency.
             </p>
             <p>
               I love building things that matter, solving complex problems, and continuously learning.
@@ -87,7 +94,7 @@ function Home() {
               or sharing my thoughts through writing.
             </p>
           </div>
-        </section>
+        </section> */}
 
         <section className="home-section resume-section">
           <h2 className="section-title">Resume</h2>
@@ -124,18 +131,29 @@ function Home() {
             <div className="resume-subsection">
               <h3>Education</h3>
               <div className="resume-item">
-                <h4>Degree</h4>
-                <p className="resume-meta">Institution | Year</p>
+                <h4>B.S. in Computer Science</h4>
+                <p className="resume-meta">Brigham Young University | April 2026 | 3.96 GPA</p>
               </div>
             </div>
             
             <div className="resume-subsection">
               <h3>Skills</h3>
               <div className="skills-grid">
-                <span className="skill-tag">React</span>
-                <span className="skill-tag">JavaScript</span>
-                <span className="skill-tag">Node.js</span>
-                <span className="skill-tag">CSS</span>
+                <span className="skill-tag">Object-Oriented Software Development and Testing</span>
+                <span className="skill-tag">Full Stack Web Development</span>
+                <span className="skill-tag">Database Management and Design (SQL, NoSQL)</span>
+                <span className="skill-tag">ReactJS</span>
+                <span className="skill-tag">AWS Product Deployment and Management</span>
+                <span className="skill-tag">Agile/Scrum Methodologies</span>
+                <span className="skill-tag">Docker</span>
+                <span className="skill-tag">Linux Systems</span>
+                <span className="skill-tag">Kafka/Event Queues</span>
+                <span className="skill-tag">SQL</span>
+                <span className="skill-tag">NoSQL</span>
+                <span className="skill-tag">Version Control</span>
+                <span className="skill-tag">Python</span>
+                <span className="skill-tag">Java</span>
+                <span className="skill-tag">Typescript</span>
               </div>
             </div>
           </div>
