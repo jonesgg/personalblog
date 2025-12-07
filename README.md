@@ -3,6 +3,13 @@
 * Create a personal site to showcase my skills and experience to employers. This will come in the form of a resume and portfolio
 * Create a blog as part of my personal site that I can use to express my thoughts on the world (Programming, Gospel, Philosophy, Hobbies)
 
+**Pitch Message in Teams**
+As many of us know the current job market is a very competitive one. To get hired in today's market one must work very hard to show off their skills. One area that I've identified that I could do better on is having a website to include on my resume and job applications. This website will include my resume, as well as a comprehensive list of all projects I've worked on as my portfolio. Each portfolio item will have a separate page. Portfolio and resume data will be stored in the database.
+ 
+In addition to that I've always wanted to express some of my thoughts in a blog. I know there are avenues like Medium where you can make blogposts but I want to create something that's mine where I can express my thoughts. My blog will be built into the personal site and will have all data stored in the database, just like the portfolio.
+ 
+There will be private endpoints built to retrieve and create resume items, portfolio items, and blogposts.
+
 **Site Layout**
 
 (All images are early goals of what I imagine the site to look like)
@@ -43,10 +50,25 @@ December 4 - Frontend finishing up
 December 5 - Deployment of project
 
 **Actual Time log**
-print("Mean Reward: ", mean_reward_custom)
 2.5 hrs Dec 1 Brainstorming, designing architecture
 4 hrs Dec 2 Project bootstrapping, git setup, backend framework
 5.5 hrs dec 3 pitch, bulk of backend work, some frontend work
 5 hrs dec 4 frontend design, finish up backend, start working more on frontend 
 6 hrs dec 5 big fixes and improvements to backend, most of frontend work, test data population, deployment
 6 hrs dec bug fixes, deployment issues, presentation planning
+
+**Final Report**
+What did I learn?
+* In this project I learned about effective planning and execution of a full stack applicaiton.
+* I learned about building effective color schemes.
+* I learned about common AWS strategies including S3 bucket invalidations and error handling.
+
+AI - My project doesn't use AI *yet!*
+
+My Interest - This project is interesting to me becuase I've always been trying to build a good blog and portfolio site. I've tried and failed a couple times already so this was a great chance to finally do it. I will use this to give my thoughts on the world and hopefully get me a job.
+
+Authentication - The only thing that needs to be secured are the create api endpoints. To prevent misuse I have a JWT token system in place ensuring that only I can use the create APIs.
+
+Failover strategy - Given excessive traffic to the site my plan is to start restricting offender IP addresses or simply turn it off until I find a faster solution.
+
+Use of AI - I used AI for difficult CSS problems and also for terraform setup. To me those two things are perfect use cases for AI.
