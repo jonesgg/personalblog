@@ -51,11 +51,18 @@ December 5 - Deployment of project
 
 **Actual Time log**
 2.5 hrs Dec 1 Brainstorming, designing architecture
+
 4 hrs Dec 2 Project bootstrapping, git setup, backend framework
+
 5.5 hrs dec 3 pitch, bulk of backend work, some frontend work
+
 5 hrs dec 4 frontend design, finish up backend, start working more on frontend 
+
 6 hrs dec 5 big fixes and improvements to backend, most of frontend work, test data population, deployment
+
 6 hrs dec bug fixes, deployment issues, presentation planning
+
+Total 30 hrs
 
 **Final Report**
 What did I learn?
